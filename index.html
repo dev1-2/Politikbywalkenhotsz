@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Politik Kurs - News der Woche</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
         * {
             margin: 0;
@@ -14,33 +14,14 @@
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
-            background: #0a0a0a;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #667eea 100%);
             min-height: 100vh;
-            overflow-x: hidden;
+            padding: 20px;
             position: relative;
         }
 
-        /* Animierter Hintergrund */
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
-            background-size: 600% 600%;
-            animation: gradientShift 8s ease infinite;
-            z-index: -2;
-        }
-
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Schwebende Partikel */
+        /* Subtile Partikel */
         .particles {
             position: fixed;
             top: 0;
@@ -48,89 +29,73 @@
             width: 100%;
             height: 100%;
             z-index: -1;
+            opacity: 0.3;
         }
 
         .particle {
             position: absolute;
-            background: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.4);
             border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
+            animation: gentleFloat 8s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
-            50% { opacity: 1; }
+        @keyframes gentleFloat {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+            50% { transform: translateY(-20px) translateX(10px); opacity: 0.6; }
         }
 
-        /* Startanimation */
+        /* Sanfte Startanimation */
         .intro-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            animation: slideUp 2s ease-in-out 3s forwards;
+            animation: fadeOut 1s ease-in-out 2s forwards;
         }
 
-        @keyframes slideUp {
+        @keyframes fadeOut {
             to {
-                transform: translateY(-100%);
                 opacity: 0;
+                visibility: hidden;
             }
         }
 
         .intro-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 4rem;
-            font-weight: 900;
+            font-size: 2.5rem;
+            font-weight: 600;
             color: white;
-            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
-            animation: glow 2s ease-in-out infinite alternate;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            animation: slideDown 0.8s ease-out;
         }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
-            to { text-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 70px rgba(102, 126, 234, 0.6); }
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .intro-subtitle {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             color: rgba(255, 255, 255, 0.8);
-            animation: fadeInUp 1s ease-out 1s both;
+            animation: slideUp 0.8s ease-out 0.3s both;
         }
 
-        .loading-bar {
-            width: 300px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            margin-top: 40px;
-            overflow: hidden;
-        }
-
-        .loading-progress {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, #f093fb, #f5576c);
-            border-radius: 2px;
-            animation: loading 3s ease-out forwards;
-        }
-
-        @keyframes loading {
-            to { width: 100%; }
-        }
-
-        @keyframes fadeInUp {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -144,11 +109,10 @@
             margin: 0 auto;
             display: grid;
             grid-template-columns: 2fr 1fr;
-            gap: 30px;
-            min-height: 100vh;
-            padding: 20px;
+            gap: 25px;
+            min-height: calc(100vh - 40px);
             opacity: 0;
-            animation: fadeIn 1s ease-out 3.5s forwards;
+            animation: fadeIn 1s ease-out 2.2s forwards;
         }
 
         @keyframes fadeIn {
@@ -156,292 +120,252 @@
         }
 
         .news-section {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
-            padding: 40px;
-            backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-            transform: translateX(-100px);
-            animation: slideInLeft 1s ease-out 4s forwards;
+            overflow-y: auto;
+            transform: translateY(20px);
+            animation: slideUpFade 0.8s ease-out 2.5s forwards;
         }
 
-        @keyframes slideInLeft {
-            to { transform: translateX(0); }
+        @keyframes slideUpFade {
+            to {
+                transform: translateY(0);
+            }
         }
 
         .video-section {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
             padding: 20px;
-            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
             gap: 20px;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s ease;
             position: relative;
-            transform: translateX(100px);
-            animation: slideInRight 1s ease-out 4.2s forwards;
-        }
-
-        @keyframes slideInRight {
-            to { transform: translateX(0); }
+            transform: translateY(20px);
+            animation: slideUpFade 0.8s ease-out 2.7s forwards;
         }
 
         .video-section.collapsed {
             padding: 15px;
-            height: 80px;
+            height: 70px;
             overflow: hidden;
         }
 
         h1 {
-            font-family: 'Orbitron', monospace;
-            color: white;
+            color: #1e3c72;
             text-align: center;
-            margin-bottom: 15px;
-            font-size: 3.5rem;
-            font-weight: 900;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
-            background-size: 200% 200%;
+            margin-bottom: 8px;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #1e3c72, #2a5298, #667eea);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: textGradient 3s ease infinite;
-            transform: scale(0);
-            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 4.5s forwards, textGradient 3s ease 5s infinite;
-        }
-
-        @keyframes textGradient {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        @keyframes popIn {
-            to { transform: scale(1); }
         }
 
         h2 {
-            color: rgba(255, 255, 255, 0.9);
+            color: #64748b;
             text-align: center;
-            margin-bottom: 40px;
-            font-size: 1.8rem;
-            opacity: 0;
-            animation: fadeInUp 0.8s ease-out 5s forwards;
+            margin-bottom: 32px;
+            font-size: 1.2rem;
+            font-weight: 500;
         }
 
         .add-news {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 30px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            transform: translateY(50px);
-            opacity: 0;
-            animation: slideUp 0.8s ease-out 5.5s forwards;
+            background: #f8fafc;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
         }
 
-        @keyframes slideUp {
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
+        .add-news:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transform: translateY(-1px);
         }
 
         .form-group {
-            margin-bottom: 25px;
-            position: relative;
+            margin-bottom: 20px;
         }
 
         label {
             display: block;
-            margin-bottom: 10px;
-            color: white;
-            font-weight: 700;
-            font-size: 1.1rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 6px;
+            color: #374151;
+            font-weight: 500;
+            font-size: 0.95rem;
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 15px 20px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 15px;
-            font-size: 16px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: rgba(255, 255, 255, 0.6);
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 15px;
+            background: white;
+            color: #374151;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: #f093fb;
-            box-shadow: 0 0 25px rgba(240, 147, 251, 0.4);
-            transform: translateY(-2px);
-            background: rgba(255, 255, 255, 0.2);
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
         }
 
         button {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
             color: white;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 25px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 18px;
-            font-weight: 700;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        button:hover::before {
-            left: 100%;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+            font-family: 'Inter', sans-serif;
         }
 
         button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+            background: linear-gradient(135deg, #2563eb, #1e40af);
         }
 
         .video-toggle-btn {
-            background: linear-gradient(135deg, #ff6b6b, #feca57);
-            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
             margin: 0 auto;
             width: fit-content;
         }
 
         .video-toggle-btn:hover {
-            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+            background: linear-gradient(135deg, #059669, #047857);
         }
 
         .news-list {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
         }
 
         .news-item {
-            background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
-            padding: 25px;
-            border-radius: 20px;
-            color: white;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform: scale(0.95);
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            border: 1px solid #f1f5f9;
+            transition: all 0.2s ease;
             opacity: 0;
-            animation: newsItemAppear 0.6s ease-out forwards;
+            transform: translateY(10px);
+            animation: newsSlideIn 0.5s ease-out forwards;
         }
 
-        @keyframes newsItemAppear {
+        @keyframes newsSlideIn {
             to {
-                transform: scale(1);
                 opacity: 1;
+                transform: translateY(0);
             }
         }
 
         .news-item:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border-color: #e2e8f0;
         }
 
         .news-item h3 {
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-            font-weight: 700;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1f2937;
         }
 
         .news-meta {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-bottom: 15px;
-            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin-bottom: 12px;
         }
 
         .news-description {
             line-height: 1.6;
-            margin-bottom: 20px;
+            color: #4b5563;
+            margin-bottom: 16px;
         }
 
         .delete-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 8px 16px;
-            font-size: 14px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 6px;
+            font-weight: 500;
         }
 
         .delete-btn:hover {
-            background: rgba(255, 87, 87, 0.3);
-            transform: scale(1.1);
+            background: #fee2e2;
+            border-color: #fca5a5;
+            transform: none;
         }
 
         .cat-video {
-            border-radius: 20px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.2s ease;
             position: relative;
         }
 
         .cat-video:hover {
-            transform: scale(1.03);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
         iframe {
             width: 100%;
-            height: 200px;
+            height: 180px;
             border: none;
-            border-radius: 20px;
         }
 
         .video-title {
             text-align: center;
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #374151;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
         }
 
         .video-content {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 16px;
+            transition: all 0.4s ease;
             opacity: 1;
             transform: translateY(0);
         }
 
         .video-section.collapsed .video-content {
             opacity: 0;
-            transform: translateY(-20px);
+            transform: translateY(-10px);
             height: 0;
             overflow: hidden;
         }
@@ -450,53 +374,77 @@
             display: none;
         }
 
-        /* Pulsierender Effekt für wichtige Elemente */
-        .pulse {
-            animation: pulse 2s infinite;
+        /* Erfolgs-Benachrichtigung */
+        .success-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #059669;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid #d1fae5;
+            animation: slideInRight 0.3s ease-out, fadeOutRight 0.3s ease-out 2.5s forwards;
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(240, 147, 251, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(240, 147, 251, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(240, 147, 251, 0); }
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes fadeOutRight {
+            to { opacity: 0; transform: translateX(100%); }
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
-                gap: 20px;
-                padding: 15px;
+                gap: 16px;
             }
             
             h1 {
-                font-size: 2.5rem;
+                font-size: 2.2rem;
             }
             
             .intro-title {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             
             .news-section, .video-section {
-                padding: 25px;
+                padding: 20px;
             }
+        }
+
+        /* Subtile Ladeanimation */
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 8px;
         }
     </style>
 </head>
 <body>
-    <!-- Animierter Hintergrund -->
-    <div class="background"></div>
-    
-    <!-- Schwebende Partikel -->
+    <!-- Subtile Partikel -->
     <div class="particles" id="particles"></div>
 
-    <!-- Startanimation -->
+    <!-- Sanfte Startanimation -->
     <div class="intro-overlay">
-        <div class="intro-title">POLITIK NEWS</div>
-        <div class="intro-subtitle">Willkommen zu Herrn Walkenhorsts Politik-Kurs</div>
-        <div class="loading-bar">
-            <div class="loading-progress"></div>
-        </div>
+        <div class="intro-title">Politik News</div>
+        <div class="intro-subtitle">Herrn Walkenhorsts Kurs</div>
     </div>
 
     <div class="container">
@@ -506,33 +454,33 @@
             
             <div class="add-news">
                 <div class="form-group">
-                    <label for="newsTitle">🗞️ Titel der Nachricht:</label>
+                    <label for="newsTitle">Titel der Nachricht</label>
                     <input type="text" id="newsTitle" placeholder="z.B. Bundestagsdebatte über Klimapaket">
                 </div>
                 
                 <div class="form-group">
-                    <label for="newsCategory">📂 Kategorie:</label>
+                    <label for="newsCategory">Kategorie</label>
                     <select id="newsCategory">
-                        <option value="Innenpolitik">🏛️ Innenpolitik</option>
-                        <option value="Außenpolitik">🌍 Außenpolitik</option>
-                        <option value="Wirtschaft">💼 Wirtschaft</option>
-                        <option value="Umwelt">🌱 Umwelt</option>
-                        <option value="Europa">🇪🇺 Europa</option>
-                        <option value="Sonstiges">📋 Sonstiges</option>
+                        <option value="Innenpolitik">Innenpolitik</option>
+                        <option value="Außenpolitik">Außenpolitik</option>
+                        <option value="Wirtschaft">Wirtschaft</option>
+                        <option value="Umwelt">Umwelt</option>
+                        <option value="Europa">Europa</option>
+                        <option value="Sonstiges">Sonstiges</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="newsDescription">📝 Beschreibung:</label>
+                    <label for="newsDescription">Beschreibung</label>
                     <textarea id="newsDescription" placeholder="Kurze Zusammenfassung der wichtigsten Punkte..."></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label for="studentName">👤 Dein Name:</label>
+                    <label for="studentName">Dein Name</label>
                     <input type="text" id="studentName" placeholder="z.B. Max Mustermann">
                 </div>
                 
-                <button onclick="addNews()" class="pulse">✨ Nachricht hinzufügen</button>
+                <button onclick="addNews()" id="addBtn">Nachricht hinzufügen</button>
             </div>
             
             <div class="news-list" id="newsList">
@@ -545,7 +493,7 @@
                 🐱 Katzenvideos anzeigen
             </button>
             
-            <div class="video-title">🐱✨ Entspannende Katzenvideos für Herrn Walkenhorst</div>
+            <div class="video-title">🐱 Entspannende Katzenvideos</div>
             
             <div class="video-content" id="videoContent">
                 <div class="cat-video">
@@ -564,23 +512,23 @@
     </div>
 
     <script>
-        // Partikel-System
+        // Subtile Partikel
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
             
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 15; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 
-                const size = Math.random() * 4 + 2;
+                const size = Math.random() * 3 + 1;
                 particle.style.width = size + 'px';
                 particle.style.height = size + 'px';
                 
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
                 
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
                 
                 particlesContainer.appendChild(particle);
             }
@@ -591,59 +539,57 @@
         let newsCounter = 0;
 
         function addNews() {
+            const addBtn = document.getElementById('addBtn');
             const title = document.getElementById('newsTitle').value.trim();
             const category = document.getElementById('newsCategory').value;
             const description = document.getElementById('newsDescription').value.trim();
             const studentName = document.getElementById('studentName').value.trim();
 
             if (!title || !description || !studentName) {
-                // Coole Fehler-Animation
-                document.querySelector('.add-news').style.animation = 'shake 0.5s ease-in-out';
-                setTimeout(() => {
-                    document.querySelector('.add-news').style.animation = '';
-                }, 500);
-                alert('🚨 Bitte fülle alle Felder aus!');
+                showNotification('Bitte fülle alle Felder aus!', 'error');
                 return;
             }
 
-            const news = {
-                id: Date.now(),
-                title: title,
-                category: category,
-                description: description,
-                studentName: studentName,
-                date: new Date().toLocaleDateString('de-DE'),
-                time: new Date().toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'})
-            };
+            // Ladeanimation
+            addBtn.innerHTML = 'Wird hinzugefügt... <span class="loading"></span>';
+            addBtn.disabled = true;
 
-            newsData.unshift(news);
-            saveToLocalStorage();
-            renderNews();
-            clearForm();
-            
-            // Erfolgs-Animation
-            showSuccessMessage(`✨ Nachricht von ${studentName} erfolgreich hinzugefügt!`);
+            setTimeout(() => {
+                const news = {
+                    id: Date.now(),
+                    title: title,
+                    category: category,
+                    description: description,
+                    studentName: studentName,
+                    date: new Date().toLocaleDateString('de-DE'),
+                    time: new Date().toLocaleTimeString('de-DE', {hour: '2-digit', minute: '2-digit'})
+                };
+
+                newsData.unshift(news);
+                saveToLocalStorage();
+                renderNews();
+                clearForm();
+                
+                addBtn.innerHTML = 'Nachricht hinzufügen';
+                addBtn.disabled = false;
+                
+                showNotification(`Nachricht von ${studentName} hinzugefügt!`, 'success');
+            }, 800);
         }
 
-        function showSuccessMessage(message) {
-            const successDiv = document.createElement('div');
-            successDiv.innerHTML = message;
-            successDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: linear-gradient(135deg, #4facfe, #00f2fe);
-                color: white;
-                padding: 15px 25px;
-                border-radius: 15px;
-                font-weight: bold;
-                z-index: 1000;
-                animation: slideInRight 0.5s ease-out, fadeOut 0.5s ease-out 2.5s forwards;
-                box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
-            `;
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = 'success-notification';
+            notification.innerHTML = message;
             
-            document.body.appendChild(successDiv);
-            setTimeout(() => successDiv.remove(), 3000);
+            if (type === 'error') {
+                notification.style.color = '#dc2626';
+                notification.style.borderColor = '#fecaca';
+                notification.style.backgroundColor = '#fef2f2';
+            }
+            
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
         }
 
         function saveToLocalStorage() {
@@ -656,8 +602,8 @@
 
             if (newsData.length === 0) {
                 newsList.innerHTML = `
-                    <div style="text-align: center; color: rgba(255,255,255,0.7); padding: 40px; font-size: 1.2rem;">
-                        🌟 Noch keine Nachrichten vorhanden.<br>Sei der Erste und füge eine hinzu! 📰
+                    <div style="text-align: center; color: #6b7280; padding: 40px; font-size: 1.1rem;">
+                        Noch keine Nachrichten vorhanden.<br>Füge die erste Nachricht hinzu! 📰
                     </div>
                 `;
                 return;
@@ -668,31 +614,22 @@
                 newsItem.className = 'news-item';
                 newsItem.style.animationDelay = (index * 0.1) + 's';
                 
-                const categoryEmojis = {
-                    'Innenpolitik': '🏛️',
-                    'Außenpolitik': '🌍',
-                    'Wirtschaft': '💼',
-                    'Umwelt': '🌱',
-                    'Europa': '🇪🇺',
-                    'Sonstiges': '📋'
-                };
-                
                 newsItem.innerHTML = `
                     <h3>${news.title}</h3>
-                    <div class="news-meta">${categoryEmojis[news.category]} ${news.category} • 👤 ${news.studentName} • 📅 ${news.date} um ${news.time}</div>
+                    <div class="news-meta">${news.category} • ${news.studentName} • ${news.date} um ${news.time}</div>
                     <div class="news-description">${news.description}</div>
-                    <button class="delete-btn" onclick="deleteNews(${news.id})">🗑️ Löschen</button>
+                    <button class="delete-btn" onclick="deleteNews(${news.id})">Löschen</button>
                 `;
                 newsList.appendChild(newsItem);
             });
         }
 
         function deleteNews(newsId) {
-            if (confirm('🚨 Möchtest du diese Nachricht wirklich löschen?')) {
+            if (confirm('Möchtest du diese Nachricht wirklich löschen?')) {
                 newsData = newsData.filter(news => news.id !== newsId);
                 saveToLocalStorage();
                 renderNews();
-                showSuccessMessage('🗑️ Nachricht erfolgreich gelöscht!');
+                showNotification('Nachricht gelöscht!', 'success');
             }
         }
 
@@ -715,24 +652,6 @@
                 toggleBtn.innerHTML = '🐱 Katzenvideos verstecken';
             }
         }
-
-        // Shake Animation für Fehler
-        const shakeStyle = document.createElement('style');
-        shakeStyle.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
-                20%, 40%, 60%, 80% { transform: translateX(10px); }
-            }
-            @keyframes slideInRight {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes fadeOut {
-                to { opacity: 0; transform: translateX(100%); }
-            }
-        `;
-        document.head.appendChild(shakeStyle);
 
         // Initialisierung
         window.addEventListener('load', () => {
