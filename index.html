@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Politik Kurs - News der Woche</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap');
+
         * {
             margin: 0;
             padding: 0;
@@ -12,168 +14,325 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Roboto', sans-serif;
+            background: #0a0a0a;
             min-height: 100vh;
-            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
 
+        /* Animierter Hintergrund */
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c, #4facfe, #00f2fe);
+            background-size: 600% 600%;
+            animation: gradientShift 8s ease infinite;
+            z-index: -2;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Schwebende Partikel */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        /* Startanimation */
+        .intro-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: slideUp 2s ease-in-out 3s forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+        }
+
+        .intro-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 20px;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 50px rgba(255, 255, 255, 0.8), 0 0 70px rgba(102, 126, 234, 0.6); }
+        }
+
+        .intro-subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            margin-top: 40px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border-radius: 2px;
+            animation: loading 3s ease-out forwards;
+        }
+
+        @keyframes loading {
+            to { width: 100%; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Hauptcontainer */
         .container {
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 30px;
-            height: calc(100vh - 40px);
+            min-height: 100vh;
+            padding: 20px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 3.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         .news-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 40px;
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            overflow-y: auto;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            transform: translateX(-100px);
+            animation: slideInLeft 1s ease-out 4s forwards;
+        }
+
+        @keyframes slideInLeft {
+            to { transform: translateX(0); }
         }
 
         .video-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
             padding: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
             gap: 20px;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
+            transform: translateX(100px);
+            animation: slideInRight 1s ease-out 4.2s forwards;
+        }
+
+        @keyframes slideInRight {
+            to { transform: translateX(0); }
         }
 
         .video-section.collapsed {
-            padding: 10px;
-            height: 60px;
+            padding: 15px;
+            height: 80px;
             overflow: hidden;
-        }
-
-        .video-toggle-btn {
-            background: linear-gradient(135deg, #ff6b6b, #feca57);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 12px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            width: fit-content;
-            margin: 0 auto;
-        }
-
-        .video-toggle-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-        }
-
-        .video-content {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            transition: all 0.3s ease;
-            opacity: 1;
-        }
-
-        .video-section.collapsed .video-content {
-            opacity: 0;
-            height: 0;
-            overflow: hidden;
-        }
-
-        .video-section.collapsed .video-title {
-            display: none;
         }
 
         h1 {
-            color: #2c3e50;
+            font-family: 'Orbitron', monospace;
+            color: white;
             text-align: center;
-            margin-bottom: 10px;
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin-bottom: 15px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            background-size: 200% 200%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: textGradient 3s ease infinite;
+            transform: scale(0);
+            animation: popIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) 4.5s forwards, textGradient 3s ease 5s infinite;
+        }
+
+        @keyframes textGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes popIn {
+            to { transform: scale(1); }
         }
 
         h2 {
-            color: #34495e;
+            color: rgba(255, 255, 255, 0.9);
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 1.5rem;
-            opacity: 0.8;
+            margin-bottom: 40px;
+            font-size: 1.8rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out 5s forwards;
         }
 
         .add-news {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 25px;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
             margin-bottom: 30px;
-            border: 2px solid #e3f2fd;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out 5.5s forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            position: relative;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
-            color: #2c3e50;
-            font-weight: 600;
+            margin-bottom: 10px;
+            color: white;
+            font-weight: 700;
             font-size: 1.1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         input, textarea, select {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e1e8ed;
-            border-radius: 10px;
+            padding: 15px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
             font-size: 16px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         input:focus, textarea:focus, select:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
+            border-color: #f093fb;
+            box-shadow: 0 0 25px rgba(240, 147, 251, 0.4);
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         button {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            padding: 12px 25px;
+            padding: 15px 30px;
             border: none;
             border-radius: 25px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            font-size: 18px;
+            font-weight: 700;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.6);
+        }
+
+        .video-toggle-btn {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+            margin: 0 auto;
+            width: fit-content;
+        }
+
+        .video-toggle-btn:hover {
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.6);
         }
 
         .news-list {
@@ -183,90 +342,163 @@
         }
 
         .news-item {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 20px;
-            border-radius: 15px;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.2), rgba(245, 87, 108, 0.2));
+            padding: 25px;
+            border-radius: 20px;
             color: white;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.95);
+            opacity: 0;
+            animation: newsItemAppear 0.6s ease-out forwards;
+        }
+
+        @keyframes newsItemAppear {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .news-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
         }
 
         .news-item h3 {
-            margin-bottom: 10px;
-            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .news-meta {
             font-size: 0.9rem;
-            opacity: 0.9;
+            opacity: 0.8;
             margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .news-description {
             line-height: 1.6;
+            margin-bottom: 20px;
         }
 
         .delete-btn {
             background: rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.3);
             color: white;
-            padding: 5px 15px;
+            padding: 8px 16px;
             font-size: 14px;
-            margin-top: 15px;
-            border-radius: 15px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
         }
 
         .delete-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: none;
+            background: rgba(255, 87, 87, 0.3);
+            transform: scale(1.1);
         }
 
         .cat-video {
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
 
         .cat-video:hover {
-            transform: scale(1.02);
+            transform: scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
         iframe {
             width: 100%;
             height: 200px;
             border: none;
+            border-radius: 20px;
         }
 
         .video-title {
             text-align: center;
-            color: #2c3e50;
-            font-size: 1.2rem;
-            font-weight: 600;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: 700;
             margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
+        .video-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .video-section.collapsed .video-content {
+            opacity: 0;
+            transform: translateY(-20px);
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-section.collapsed .video-title {
+            display: none;
+        }
+
+        /* Pulsierender Effekt für wichtige Elemente */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(240, 147, 251, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(240, 147, 251, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(240, 147, 251, 0); }
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .container {
                 grid-template-columns: 1fr;
                 gap: 20px;
+                padding: 15px;
             }
             
             h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
+            }
+            
+            .intro-title {
+                font-size: 2.5rem;
             }
             
             .news-section, .video-section {
-                padding: 20px;
+                padding: 25px;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Animierter Hintergrund -->
+    <div class="background"></div>
+    
+    <!-- Schwebende Partikel -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Startanimation -->
+    <div class="intro-overlay">
+        <div class="intro-title">POLITIK NEWS</div>
+        <div class="intro-subtitle">Willkommen zu Herrn Walkenhorsts Politik-Kurs</div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="news-section">
             <h1>Die News der Woche</h1>
@@ -274,33 +506,33 @@
             
             <div class="add-news">
                 <div class="form-group">
-                    <label for="newsTitle">Titel der Nachricht:</label>
+                    <label for="newsTitle">🗞️ Titel der Nachricht:</label>
                     <input type="text" id="newsTitle" placeholder="z.B. Bundestagsdebatte über Klimapaket">
                 </div>
                 
                 <div class="form-group">
-                    <label for="newsCategory">Kategorie:</label>
+                    <label for="newsCategory">📂 Kategorie:</label>
                     <select id="newsCategory">
-                        <option value="Innenpolitik">Innenpolitik</option>
-                        <option value="Außenpolitik">Außenpolitik</option>
-                        <option value="Wirtschaft">Wirtschaft</option>
-                        <option value="Umwelt">Umwelt</option>
-                        <option value="Europa">Europa</option>
-                        <option value="Sonstiges">Sonstiges</option>
+                        <option value="Innenpolitik">🏛️ Innenpolitik</option>
+                        <option value="Außenpolitik">🌍 Außenpolitik</option>
+                        <option value="Wirtschaft">💼 Wirtschaft</option>
+                        <option value="Umwelt">🌱 Umwelt</option>
+                        <option value="Europa">🇪🇺 Europa</option>
+                        <option value="Sonstiges">📋 Sonstiges</option>
                     </select>
                 </div>
                 
                 <div class="form-group">
-                    <label for="newsDescription">Beschreibung:</label>
+                    <label for="newsDescription">📝 Beschreibung:</label>
                     <textarea id="newsDescription" placeholder="Kurze Zusammenfassung der wichtigsten Punkte..."></textarea>
                 </div>
                 
                 <div class="form-group">
-                    <label for="studentName">Dein Name:</label>
+                    <label for="studentName">👤 Dein Name:</label>
                     <input type="text" id="studentName" placeholder="z.B. Max Mustermann">
                 </div>
                 
-                <button onclick="addNews()">Nachricht hinzufügen</button>
+                <button onclick="addNews()" class="pulse">✨ Nachricht hinzufügen</button>
             </div>
             
             <div class="news-list" id="newsList">
@@ -313,7 +545,7 @@
                 🐱 Katzenvideos anzeigen
             </button>
             
-            <div class="video-title">🐱 Katzenvideos für Herrn Walkenhorst</div>
+            <div class="video-title">🐱✨ Entspannende Katzenvideos für Herrn Walkenhorst</div>
             
             <div class="video-content" id="videoContent">
                 <div class="cat-video">
@@ -332,7 +564,31 @@
     </div>
 
     <script>
+        // Partikel-System
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                const size = Math.random() * 4 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // News-System
         let newsData = JSON.parse(localStorage.getItem('politikNews') || '[]');
+        let newsCounter = 0;
 
         function addNews() {
             const title = document.getElementById('newsTitle').value.trim();
@@ -341,7 +597,12 @@
             const studentName = document.getElementById('studentName').value.trim();
 
             if (!title || !description || !studentName) {
-                alert('Bitte fülle alle Felder aus!');
+                // Coole Fehler-Animation
+                document.querySelector('.add-news').style.animation = 'shake 0.5s ease-in-out';
+                setTimeout(() => {
+                    document.querySelector('.add-news').style.animation = '';
+                }, 500);
+                alert('🚨 Bitte fülle alle Felder aus!');
                 return;
             }
 
@@ -359,6 +620,30 @@
             saveToLocalStorage();
             renderNews();
             clearForm();
+            
+            // Erfolgs-Animation
+            showSuccessMessage(`✨ Nachricht von ${studentName} erfolgreich hinzugefügt!`);
+        }
+
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.innerHTML = message;
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #4facfe, #00f2fe);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 15px;
+                font-weight: bold;
+                z-index: 1000;
+                animation: slideInRight 0.5s ease-out, fadeOut 0.5s ease-out 2.5s forwards;
+                box-shadow: 0 10px 25px rgba(79, 172, 254, 0.4);
+            `;
+            
+            document.body.appendChild(successDiv);
+            setTimeout(() => successDiv.remove(), 3000);
         }
 
         function saveToLocalStorage() {
@@ -370,28 +655,44 @@
             newsList.innerHTML = '';
 
             if (newsData.length === 0) {
-                newsList.innerHTML = '<div style="text-align: center; color: #666; padding: 40px;">Noch keine Nachrichten vorhanden. Sei der Erste und füge eine hinzu! 📰</div>';
+                newsList.innerHTML = `
+                    <div style="text-align: center; color: rgba(255,255,255,0.7); padding: 40px; font-size: 1.2rem;">
+                        🌟 Noch keine Nachrichten vorhanden.<br>Sei der Erste und füge eine hinzu! 📰
+                    </div>
+                `;
                 return;
             }
 
-            newsData.forEach(news => {
+            newsData.forEach((news, index) => {
                 const newsItem = document.createElement('div');
                 newsItem.className = 'news-item';
+                newsItem.style.animationDelay = (index * 0.1) + 's';
+                
+                const categoryEmojis = {
+                    'Innenpolitik': '🏛️',
+                    'Außenpolitik': '🌍',
+                    'Wirtschaft': '💼',
+                    'Umwelt': '🌱',
+                    'Europa': '🇪🇺',
+                    'Sonstiges': '📋'
+                };
+                
                 newsItem.innerHTML = `
                     <h3>${news.title}</h3>
-                    <div class="news-meta">${news.category} • ${news.studentName} • ${news.date} um ${news.time || 'heute'}</div>
+                    <div class="news-meta">${categoryEmojis[news.category]} ${news.category} • 👤 ${news.studentName} • 📅 ${news.date} um ${news.time}</div>
                     <div class="news-description">${news.description}</div>
-                    <button class="delete-btn" onclick="deleteNews(${news.id})">Löschen</button>
+                    <button class="delete-btn" onclick="deleteNews(${news.id})">🗑️ Löschen</button>
                 `;
                 newsList.appendChild(newsItem);
             });
         }
 
         function deleteNews(newsId) {
-            if (confirm('Möchtest du diese Nachricht wirklich löschen?')) {
+            if (confirm('🚨 Möchtest du diese Nachricht wirklich löschen?')) {
                 newsData = newsData.filter(news => news.id !== newsId);
                 saveToLocalStorage();
                 renderNews();
+                showSuccessMessage('🗑️ Nachricht erfolgreich gelöscht!');
             }
         }
 
@@ -415,8 +716,29 @@
             }
         }
 
-        // Beim Laden der Seite
-        renderNews();
+        // Shake Animation für Fehler
+        const shakeStyle = document.createElement('style');
+        shakeStyle.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+                20%, 40%, 60%, 80% { transform: translateX(10px); }
+            }
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes fadeOut {
+                to { opacity: 0; transform: translateX(100%); }
+            }
+        `;
+        document.head.appendChild(shakeStyle);
+
+        // Initialisierung
+        window.addEventListener('load', () => {
+            createParticles();
+            renderNews();
+        });
     </script>
 </body>
 </html>
